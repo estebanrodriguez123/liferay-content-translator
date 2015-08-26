@@ -21,10 +21,10 @@ import org.json.simple.JSONValue;
 public class TranslatorAPI {
 
     private static final String ENCODING = "UTF-8";
-    private static final String DAUri = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
-    private static final String TranslateURL = "http://api.microsofttranslator.com/V2/Ajax.svc/Translate?";
     private static final String TranslateAarrayURL = "http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray?";
 
+    private static String authURL = "AUTH_URL";
+    private static String translateURL = "API_URL";
     private static String clientId = "CLIENT_ID";
     private static String clientSecret = "CLIENT_SECRET";
     
@@ -64,6 +64,20 @@ public class TranslatorAPI {
     }
     
     /**
+     * Sets the API URL
+     */
+    public static void setApiURL(String translateURL) {
+        TranslatorAPI.translateURL = translateURL;
+    }
+    
+    /**
+     * Sets the Auth URL
+     */
+    public static void setAuthURL(String authURL) {
+        TranslatorAPI.authURL = authURL;
+    }
+    
+    /**
      * Reads an InputStream and returns its contents as a String.
      * @param inputStream The InputStream to read from.
      * @return The contents of the InputStream as a String.
@@ -92,7 +106,7 @@ public class TranslatorAPI {
      */
     private String getToken() throws Exception {
         String parameters = "grant_type=client_credentials&scope=http://api.microsofttranslator.com&client_id=" + URLEncoder.encode(this.clientId,ENCODING) + "&client_secret=" + URLEncoder.encode(this.clientSecret,ENCODING);
-        URL url = new URL(DAUri);
+        URL url = new URL(authURL);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.setRequestProperty("Content-Type","application/x-www-form-urlencoded; charset=" + ENCODING);
         urlConnection.setRequestProperty("Accept-Charset",ENCODING);
@@ -160,7 +174,7 @@ public class TranslatorAPI {
             return text;
         }
         String params = "?"+""+"&from="+URLEncoder.encode(from,ENCODING)+"&to="+URLEncoder.encode(to,ENCODING)+"&text="+URLEncoder.encode(text,ENCODING);
-        URL url = new URL(TranslateURL + params);
+        URL url = new URL(translateURL + params);
         try{
             String translationResponse = executeUrl(url);
             String translation = (String)JSONValue.parse(translationResponse);
@@ -184,7 +198,7 @@ public class TranslatorAPI {
             return text;
         }
         String params = "?"+""+"&from="+URLEncoder.encode(Languages.AUTO,ENCODING)+"&to="+URLEncoder.encode(to,ENCODING)+"&text="+URLEncoder.encode(text,ENCODING);
-        URL url = new URL(TranslateURL + params);
+        URL url = new URL(translateURL + params);
         try{
             String translationResponse = executeUrl(url);
             String translation = (String)JSONValue.parse(translationResponse);
