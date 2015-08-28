@@ -35,9 +35,14 @@
 <% 
 final String TRANSLATOR_CLIENT_ID = "microsoft.translator.clientid";
 final String TRANSLATOR_CLIENTE_SECRET = "microsoft.translator.clientsecret";
+final String TRANSLATOR_API_URL = "microsoft.translator.apiurl";
+final String TRANSLATOR_AUTH_URL = "microsoft.translator.authurl";
 
 String clientId = PrefsPropsUtil.getString(company.getCompanyId(), TRANSLATOR_CLIENT_ID, GetterUtil.getString(PropsUtil.get(TRANSLATOR_CLIENT_ID)));
 String clientSecret = PrefsPropsUtil.getString(company.getCompanyId(), TRANSLATOR_CLIENTE_SECRET, GetterUtil.getString(PropsUtil.get(TRANSLATOR_CLIENTE_SECRET)));
+String apiURL = PrefsPropsUtil.getString(company.getCompanyId(), TRANSLATOR_API_URL, "http://api.microsofttranslator.com/V2/Ajax.svc/Translate?");
+String authURL = PrefsPropsUtil.getString(company.getCompanyId(), TRANSLATOR_AUTH_URL, "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13");
+
 %>
 
 <h3><liferay-ui:message key="translator-auth" /></h3>
@@ -50,4 +55,15 @@ String clientSecret = PrefsPropsUtil.getString(company.getCompanyId(), TRANSLATO
 	<aui:input required="true" 		label="translator-client-secret" 
 		name='<%= "settings--" + TRANSLATOR_CLIENTE_SECRET + "--" %>' 
 		type="text" value="<%= clientSecret %>" />
+</aui:fieldset>
+
+<h3><liferay-ui:message key="translator-api" /></h3>
+<aui:fieldset>
+	<aui:input required="true" 		label="translator-auth-url" 
+		name='<%= "settings--" + TRANSLATOR_AUTH_URL + "--" %>' 
+		type="text" value="<%= authURL %>" />
+		
+	<aui:input required="true" 		label="translator-api-url" 
+		name='<%= "settings--" + TRANSLATOR_API_URL + "--" %>' 
+		type="text" value="<%= apiURL %>" />
 </aui:fieldset>

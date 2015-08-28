@@ -41,6 +41,8 @@ public class AutomaticTranslatorUtil {
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         TranslatorAPI.setClientId(getClientId(themeDisplay.getCompanyId()));
         TranslatorAPI.setClientSecret(getClientSecret(themeDisplay.getCompanyId()));
+        TranslatorAPI.setApiURL(getApiURL(themeDisplay.getCompanyId()));
+        TranslatorAPI.setAuthURL(getAuthURL(themeDisplay.getCompanyId()));
         LOG.debug("CLIENT_ID: " + TranslatorAPI.getClientId());
         LOG.debug("CLIENT_SECRET: " + TranslatorAPI.getClientSecret());
         return new TranslatorAPI();
@@ -60,6 +62,22 @@ public class AutomaticTranslatorUtil {
     private static String getClientSecret(long companyId) throws SystemException {
         return PrefsPropsUtil.getString(companyId, WebKeys.TRANSLATOR_CLIENT_SECRET, 
                 GetterUtil.getString(PropsUtil.get(WebKeys.TRANSLATOR_CLIENT_SECRET)));
+    }
+    
+    /**
+     * Get the value for API URL from the control panel
+     */
+    private static String getApiURL(long companyId) throws SystemException  {
+        return PrefsPropsUtil.getString(companyId, WebKeys.TRANSLATOR_API_URL, 
+                GetterUtil.getString(PropsUtil.get(WebKeys.TRANSLATOR_API_URL)));
+    }
+    
+    /**
+     * Get the value for Auth URL from the control panel
+     */
+    private static String getAuthURL(long companyId) throws SystemException  {
+        return PrefsPropsUtil.getString(companyId, WebKeys.TRANSLATOR_AUTH_URL, 
+                GetterUtil.getString(PropsUtil.get(WebKeys.TRANSLATOR_AUTH_URL)));
     }
     
 }
